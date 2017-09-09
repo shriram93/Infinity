@@ -1,0 +1,28 @@
+[debug] [2017-09-07T09:40:41.172Z] ----------------------------------------------------------------------
+[debug] [2017-09-07T09:40:41.177Z] Command:       /usr/bin/node /usr/bin/firebase serve --port 3000
+[debug] [2017-09-07T09:40:41.178Z] CLI Version:   3.10.0
+[debug] [2017-09-07T09:40:41.178Z] Platform:      linux
+[debug] [2017-09-07T09:40:41.179Z] Node Version:  v6.11.3
+[debug] [2017-09-07T09:40:41.179Z] Time:          Thu Sep 07 2017 05:40:41 GMT-0400 (EDT)
+[debug] [2017-09-07T09:40:41.179Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-07T09:40:41.204Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-07T09:40:41.205Z] > authorizing via signed-in user
+[debug] [2017-09-07T09:40:41.210Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/infinity-90ad9  
+ Thu Sep 07 2017 05:40:41 GMT-0400 (EDT)
+[debug] [2017-09-07T09:40:41.650Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T09:40:41.652Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/infinity-90ad9/tokens  
+ Thu Sep 07 2017 05:40:41 GMT-0400 (EDT)
+[debug] [2017-09-07T09:40:42.094Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/cabox/workspace/starter'...
+[info] 
+[debug] [2017-09-07T09:40:42.101Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/infinity-90ad9  
+ Thu Sep 07 2017 05:40:42 GMT-0400 (EDT)
+[debug] [2017-09-07T09:40:42.440Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-07T09:40:42.441Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/967881235547/clients/_:getWebAppConfig  
+ Thu Sep 07 2017 05:40:42 GMT-0400 (EDT)
+[debug] [2017-09-07T09:40:42.672Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:3000
+

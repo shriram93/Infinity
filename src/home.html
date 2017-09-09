@@ -1,0 +1,93 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-home">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+    </style>
+  <style include="app-grid-style">
+    :host {
+      --app-grid-columns: 2;
+      --app-grid-gutter: 10px;
+      --app-grid-expandible-item-columns: 2;     
+    }
+
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+
+    .item { 
+      --app-grid-item-height: 50%;
+      position: center;
+      background-color: white;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    
+     .item.fillscreen {
+      @apply --app-grid-expandible-item;
+       --app-grid-item-height: 30%;
+    }
+    .heading {
+      margin: 10px 10px;
+      font-weight: bold
+    }
+    
+            .centered-container {
+          margin-top: 40px;
+          max-width: 1000px;
+          margin: 40px auto;
+        }
+    
+  </style>
+  <div class="centered-container">
+  <ul class="app-grid" has-aspect-ratio >
+    <li class="item fillscreen" style="background-image: url(images/Banner_1.JPG);">
+    </li>
+    <li class="item fillscreen" style="background-image: url(images/Banner_2.jpg);">
+    </li>
+  </ul> 
+  <div class="heading">Featured brands</div>
+  <ul class="app-grid" has-aspect-ratio>
+    <li class="item" style="background-image: url(images/Square_1.JPG);">
+    </li>
+    <li class="item" style="background-image: url(images/Square_2.JPG);">
+    </li>
+  </ul>
+  <div class="heading">Recommended for you</div>
+  <ul class="app-grid" has-aspect-ratio>
+    <li class="item" style="background-image: url(images/Square_3.JPG);">
+    </li>
+    <li class="item" style="background-image: url(images/Square_4.JPG);">
+    </li>
+  </ul>
+    </div>
+</template>
+  
+
+  
+  
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+    class InfinityHome extends Polymer.Element {
+      static get is() { return 'my-home'; }
+    }
+
+    window.customElements.define(InfinityHome.is, InfinityHome);
+  </script>
+</dom-module>

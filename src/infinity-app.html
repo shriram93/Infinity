@@ -1,0 +1,248 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="two-columns-grid.html">
+<link rel="import" href="my-icons.html">
+
+<link rel="lazy-import" href="home.html">
+<link rel="lazy-import" href="catg.html">
+<link rel="lazy-import" href="cart.html">
+<link rel="lazy-import" href="account.html">
+<link rel="lazy-import" href="view404.html">
+
+<dom-module id="infinity-app">
+  <template>
+    <style>
+      :host {
+        --app-primary-color: #4285f4;
+        --app-secondary-color: #424242;
+
+        display: block;
+      }
+
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+
+       .inherit {
+        color: inherit;
+        background-color: inherit;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        line-height: 40px;
+      }
+
+      .separator {
+      border-bottom: 1px solid #CCC;
+      }
+      
+       .drawer-list a paper-icon-button {
+         margin-right: 20px;
+         bottom: 3px;
+         position:relative;
+         color: var(--app-primary-color);
+       }
+    </style>
+
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPath]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <app-drawer-layout fullbleed narrow="{{narrow}}">
+      <!-- Drawer content -->
+      <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+        <app-toolbar class="separator">          
+          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+            <a name="home" href="[[rootPath]]home">
+              <paper-icon-button class="drawer-icon" icon="my-icons:home"></paper-icon-button>
+              Home
+            </a>
+          </iron-selector>
+        </app-toolbar>
+        <iron-selector id="drawer-select" selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <iron-selector name="catg" selected="{{selectedIndex}}" attr-for-selected="name"  >
+          <a name="electronics" href="[[rootPath]]catg">
+            <paper-icon-button class="drawer-icon" icon="my-icons:smartphone"></paper-icon-button> Electronics
+          </a>
+          <a name="homeappliances" href="[[rootPath]]catg">
+            <paper-icon-button class="drawer-icon" icon="my-icons:tv"></paper-icon-button> Home Appliances
+          </a>
+          <a name="books" href="[[rootPath]]catg" class="separator">
+            <paper-icon-button class="drawer-icon" icon="my-icons:library-books"></paper-icon-button> Books
+          </a>
+         </iron-selector>
+          <a name="cart" href="[[rootPath]]cart">
+            <paper-icon-button class="drawer-icon" icon="my-icons:shopping-cart"></paper-icon-button> My Cart
+          </a>
+          <a name="account" href="[[rootPath]]account">
+            <paper-icon-button class="drawer-icon" icon="my-icons:account-circle"></paper-icon-button> My Account
+          </a>
+        </iron-selector>
+      </app-drawer>
+
+      <!-- Main content -->
+      <app-header-layout has-scrolling-region>
+
+        <app-header slot="header" condenses reveals effects="waterfall">
+          <app-toolbar>
+            <!-- menu button -->
+            <paper-icon-button
+                drawer-toggle
+                icon="my-icons:menu"
+                hidden$="[[_shouldHideMenuButton(page)]]">
+            </paper-icon-button>
+            <!-- back button -->
+            <paper-icon-button 
+              drawer-toggle
+              icon="my-icons:arrow-back" 
+              hidden$="[[_shouldHideBackButton(page)]]"
+              on-tap="_goback" >
+            </paper-icon-button>
+            <div main-title>Infinity</div>
+            <a name="cart" href="[[rootPath]]cart" class="inherit">
+            <paper-icon-button icon="my-icons:shopping-cart"></paper-icon-button>
+            </a>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-home name="home"></my-home>
+           <my-catg  name="catg" product="[[category]]"></my-catg>
+          <my-cart name="cart"></my-cart>
+          <my-account name="account"></my-account>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+    class MyApp extends Polymer.Element {
+      static get is() { return 'infinity-app'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          products: Object,
+          category: Object,
+          selectedIndex: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_catgChanged'
+          },
+          routeData: Object,
+          subroute: String,
+          // This shouldn't be neccessary, but the Analyzer isn't picking up
+          // Polymer.Element#rootPath
+          rootPath: String
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+      
+      _catgChanged(selectedIndex) {
+        
+      if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+        
+        if (!this.products) {
+          return;
+        }
+        for (var i=0, cat; cat=this.products[i]; i++) {
+          if (cat.name === selectedIndex) { 
+                this.category = cat;
+                return;
+            }
+          }
+        }
+      
+      _routePageChanged(page) {
+        // If no page was found in the route data, page will be an empty string.
+        // Deault to 'home' in that case.
+        this.page = page || 'home';
+
+        // Close a non-persistent drawer when the page & route are changed.
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      }
+
+      _pageChanged(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl(  page + '.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+      }
+      _showPage404() {
+        this.page = 'view404';
+      }
+      
+      _shouldHideMenuButton(page) {
+        return page !== 'home';
+      }
+      _shouldHideBackButton(page) {
+        return page === 'home';
+      }
+      _goback() {
+      window.history.back();
+      }
+    }
+
+    window.customElements.define(MyApp.is, MyApp);
+  </script>
+  
+  <script type="text/javascript">
+            function Warn(message) {
+               alert (message);
+            }
+   </script>
+  
+</dom-module>

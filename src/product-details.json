@@ -1,0 +1,89 @@
+[
+  {
+    "name":"electronics",
+    "items":[
+      {
+        "id": "1",
+        "title":"Mobile 1",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/mobile1.JPG",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "2",
+        "title":"Mobile 2",
+        "price":50.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/mobile2.JPG",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "3",
+        "title":"Mobile 3",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/mobile3.JPG",
+        "largeImage":"../images/large.jpg"
+      }
+    ]
+  },
+  {
+    "name":"homeappliances",
+    "items":[
+      {
+        "id": "1",
+        "title":"Porduct 1",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "2",
+        "title":"Product 2",
+        "price":50.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "3",
+        "title":"Product 3",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      }
+    ]
+  },
+  {
+    "name":"books",
+    "items":[
+      {
+        "id": "1",
+        "title":"Book 1",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "2",
+        "title":"Book 2",
+        "price":50.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      },
+      {
+        "id": "3",
+        "title":"Book 3",
+        "price":14.75,
+        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
+        "image":"../images/small.jpg",
+        "largeImage":"../images/large.jpg"
+      }
+    ]
+  }
+]

@@ -1,0 +1,76 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-catg">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      
+      .inherit {
+        color: inherit;
+        background-color: inherit;
+        text-decoration: inherit;
+      }
+       
+      .card{
+        
+        font-size: 22px;
+        line-height: px;
+        @apply --layout-vertical;
+        text-decoration: none;
+      }
+      img {
+        height:100%;
+        width: auto;               
+      }
+      .image-placeholder {
+        text-align:center;
+        width:120px; 
+        height:120px; 
+        display: block; 
+        margin-right:20px;
+        float:left;
+      }
+    </style>    
+   
+     
+    <two-columns-grid column-width="480" gutter="4">
+     <template is="dom-repeat" items="[[product.items]]" as="prod">
+ <paper-card class="card">
+  <div class="card-content">
+    <div class="image-placeholder">
+      <img src="[[prod.image]]" >
+    </div>
+    <div class="item-header">[[prod.title]]</div>
+    <div>[[prod.price]]</div>
+    
+</div>  
+    
+</paper-card>
+     </template>
+    </two-columns-grid> 
+ 
+  </template>
+ 
+ 
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+    class categorylist extends Polymer.Element {
+      static get is() { return 'my-catg'; }
+      static get properties() {
+        return {          
+          product: Object
+           };
+      }
+    }
+
+    window.customElements.define(categorylist.is, categorylist);
+  </script>
+
+
+</dom-module>
+
+
