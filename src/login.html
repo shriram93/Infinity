@@ -1,126 +1,115 @@
-
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-login">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-
-        padding: 10px;
-      }
-      .wrapper-btns {
-    margin-top: 15px;
-}
-paper-button.link {
-    color: #757575;
-}
-     
-        .centered-container {
-          
-        margin: 5% var(--screen-width);      
-        
-      }
-      
-        .inherit {
-        color: inherit;
-        background-color: inherit;
-        text-decoration: inherit;
-      }
-      
-      .login {
-        background-color:#4CAF50;
-        color:#ffffff ;
-      }
-      .guest {
-      background-color:#4285f4;
-        color:#ffffff ;
-      }      
-    </style>
-<window-size width="{{width}}" height="{{height}}"></window-size>
-  <div class="card centered-container">
-    <div id="unauthenticated">
-        <h1>Sign In</h1>
-
-        
-          <paper-input label="Username" id="username_id" char-counter maxlength="10" auto-validate></paper-input>
-
-          <paper-input label="Password" id="password" type="password" char-counter maxlength="10" auto-validate></paper-input>
-
-        <div class="wrapper-btns">
-          <a  class="inherit" href="[[rootpath]]home">
-            <paper-button raised class="login" on-click="_login">Log In</paper-button>
-          </a>            
-            <a  class="inherit" href="[[rootpath]]home">
-          <paper-button raised class="guest" on-click="_guest">Continue as guest</paper-button>
-           </a>
-        </div>
-    </div>    
-</div>
-    
-    
-    
-    
-  </template>
-
- <script>
-    class MyView6 extends Polymer.Element {
-      static get is() { return 'my-login'; }
-      
-        static get properties() {
-        return {
-          width: {
-            type: Number,
-            value: 100
-          },
-          height: {
-            type: Number,
-            value: 100
-          }
-        };
-      }
-
-      static get observers() {
-        return [
-          '_layoutChanged(width,height)',
-        ];
-      }
-  
-    _layoutChanged(wd,hi){
-      this.updateStyles({
-       '--screen-width': (this.width/70) + '%',
-       '--screen-height': (this.height/70) + '%'
-        });
-    } 
-    
-      _login(){
-        if (!this.$.username_id.value)
-          {
-            this.$.username_id.value = "guest";
-          }
-        localStorage.setItem("user", [[this.$.username_id.value]]);
-        document.getElementById('toast').show('Hi '+this.$.username_id.value+', Welcome back!');
-         this.$.username_id.value = "";
-        this.$.password.value = "";
-       }
-      
-     _guest(){
-      localStorage.setItem("user", "guest");
-       this.$.username_id.value = "";
-       this.$.password.value = "";
-      }
-    
-    }    
-
-    window.customElements.define(MyView6.is, MyView6);
-  </script>
-  
-    <script type="text/javascript">
-            function Warn(message) {
-               alert (message);
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
             }
-    
-   </script>
+            .wrapper-btns {
+                margin-top: 15px;
+            }
+            paper-button.link {
+                color: #757575;
+            }
+            .centered-container {
+                margin: 5% var(--screen-width);
+            }
+            .inherit {
+                color: inherit;
+                background-color: inherit;
+                text-decoration: inherit;
+            }
+            .login {
+                background-color: #4CAF50;
+                color: #ffffff;
+            }
+            .guest {
+                background-color: #4285f4;
+                color: #ffffff;
+            }
+        </style>
+        <window-size width="{{width}}" height="{{height}}"></window-size>
+        <div class="card centered-container">
+            <div id="unauthenticated">
+                <h1>Sign In</h1>
+
+
+                <paper-input label="Username" id="username_id" char-counter maxlength="10" auto-validate></paper-input>
+
+                <paper-input label="Password" id="password" type="password" char-counter maxlength="10" auto-validate></paper-input>
+
+                <div class="wrapper-btns">
+                    <a class="inherit" href="[[rootpath]]home">
+                        <paper-button raised class="login" on-click="_login">Log In</paper-button>
+                    </a>
+                    <a class="inherit" href="[[rootpath]]home">
+                        <paper-button raised class="guest" on-click="_guest">Continue as guest</paper-button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        class MyView6 extends Polymer.Element {
+            static get is() {
+                return 'my-login';
+            }
+
+            static get properties() {
+                return {
+                    width: {
+                        type: Number,
+                        value: 100
+                    },
+                    height: {
+                        type: Number,
+                        value: 100
+                    }
+                };
+            }
+
+            static get observers() {
+                return [
+                    '_layoutChanged(width,height)',
+                ];
+            }
+
+            _layoutChanged(wd, hi) {
+                this.updateStyles({
+                    '--screen-width': (this.width / 70) + '%',
+                    '--screen-height': (this.height / 70) + '%'
+                });
+            }
+
+            _login() {
+                if (!this.$.username_id.value) {
+                    this.$.username_id.value = "guest";
+                }
+                localStorage.setItem("user", [
+                    [this.$.username_id.value]
+                ]);
+                document.getElementById('toast').show('Hi ' + this.$.username_id.value + ', Welcome back!');
+                this.$.username_id.value = "";
+                this.$.password.value = "";
+            }
+
+            _guest() {
+                localStorage.setItem("user", "guest");
+                this.$.username_id.value = "";
+                this.$.password.value = "";
+            }
+
+        }
+
+        window.customElements.define(MyView6.is, MyView6);
+    </script>
+
+    <script type="text/javascript">
+        function Warn(message) {
+            alert(message);
+        }
+    </script>
 </dom-module>

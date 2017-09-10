@@ -2,113 +2,101 @@
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-catg">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+            .inherit {
+                color: inherit;
+                background-color: inherit;
+                text-decoration: inherit;
+            }
+            .card {
+                font-size: var(--font-size);
+                padding: 0px;
+                margin: 10px;
+                @apply --layout-vertical;
+                text-decoration: none;
+            }
+            img {
+                height: 100%;
+                width: auto;
+            }
+            .image-placeholder {
+                width: 120px;
+                height: 120px;
+                display: block;
+                margin-right: 20px;
+                float: left;
+            }
+            .centered-container {
+                margin: 0 4%;
+            }
+        </style>
+        <window-size width="{{width}}" height="{{height}}"></window-size>
+        <div class="centered-container">
+            <two-columns-grid column-width="480" gutter="4">
+                <template is="dom-repeat" items="[[product.items]]" as="prod">
+                    <a class="inherit" href="[[rootpath]]prod/[[prod.id]]">
+                        <paper-card class="card">
+                            <div class="card-content">
+                                <div class="image-placeholder">
+                                    <img src="[[prod.image]]">
+                                </div>
+                                <div class="item-header">[[prod.title]]</div>
+                                <div>[[prod.price]]</div>
+                            </div>
+                        </paper-card>
+                    </a>
+                </template>
+            </two-columns-grid>
+        </div>
+    </template>
 
-        padding: 10px;
-      }
-      
-      .inherit {
-        color: inherit;
-        background-color: inherit;
-        text-decoration: inherit;
-      }
-       
-      .card{        
-        font-size: var(--font-size);
-        padding:0px;
-        margin:10px;
-        @apply --layout-vertical;
-        text-decoration: none;
-      }
-      img {
-        height:100%;
-        width: auto;               
-      }
-      .image-placeholder {
-        width:120px; 
-        height:120px; 
-        display: block; 
-        margin-right:20px;
-        float:left;
-      }
-       .centered-container {
-          margin: 0 4%;
-        }
-    </style>    
-   <window-size width="{{width}}" height="{{height}}"></window-size>
-     <div class="centered-container">
-    <two-columns-grid column-width="480" gutter="4">
-     <template is="dom-repeat" items="[[product.items]]" as="prod">
-  <a  class="inherit" href="[[rootpath]]prod/[[prod.id]]">
- <paper-card class="card">
-  <div class="card-content">
-    <div class="image-placeholder">
-      <img src="[[prod.image]]" >
-    </div>
-    <div class="item-header">[[prod.title]]</div>
-    <div>[[prod.price]]</div>
-  </div>  
- </paper-card>
- </a>
-     </template>
-    </two-columns-grid> 
-    </div>
-  </template>
- 
- 
-<script>
-    class categorylist extends Polymer.Element {
-      static get is() { return 'my-catg'; }
-      static get properties() {
-        return {          
-          product: Object,
-          rootpath: String,
-          width: {
-            type: Number,
-            value: 100
-          },
-          height: {
-            type: Number,
-            value: 100
-          }
-        };
-      }
-      static get observers() {
-        return [
-          '_layoutChanged(width,height)',
-        ];
-      }
-  
-    _layoutChanged(wd,hi){
-      if (this.width < 768)
-        {
-          this.updateStyles({
-        
-          '--font-size': 14 + 'px',
-          });
-        }
-      else
-        {
-          this.updateStyles({
-        
-          '--font-size': 22 + 'px',
-          });
-        }
-    
-    } 
 
-      
-      
-    }
-  
-   
-    window.customElements.define(categorylist.is, categorylist);
-  </script>
+    <script>
+        class categorylist extends Polymer.Element {
+            static get is() {
+                return 'my-catg';
+            }
+            static get properties() {
+                return {
+                    product: Object,
+                    rootpath: String,
+                    width: {
+                        type: Number,
+                        value: 100
+                    },
+                    height: {
+                        type: Number,
+                        value: 100
+                    }
+                };
+            }
+            static get observers() {
+                return [
+                    '_layoutChanged(width,height)',
+                ];
+            }
+
+            _layoutChanged(wd, hi) {
+                if (this.width < 768) {
+                    this.updateStyles({
+
+                        '--font-size': 14 + 'px',
+                    });
+                } else {
+                    this.updateStyles({
+
+                        '--font-size': 22 + 'px',
+                    });
+                }
+            }
+        }
+        window.customElements.define(categorylist.is, categorylist);
+    </script>
 
 
 </dom-module>
-
-

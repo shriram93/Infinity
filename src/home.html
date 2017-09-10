@@ -1,101 +1,86 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-home">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-        padding: 10px;
-      }
-    </style>
-  <style >
-     
-     .fillscreen {
-       width: 100%;
-       height:auto;
-    }
-    .square{
-      height:90%;
-      width:100%;
-    }
-    .heading {
-      margin: 10px 10px;
-      font-weight: bold
-    }
-    .inherit {
-        color: inherit;
-        background-color: inherit;
-        text-decoration: inherit;
-      }
-    
-       .centered-container {
-          margin-top: 40px;
-          max-width: 1000px;
-          margin: 40px auto;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <style>
+            .fillscreen {
+                width: 100%;
+                height: auto;
+            }
+            .square {
+                height: 90%;
+                width: 100%;
+            }
+            .heading {
+                margin: 10px 10px;
+                font-weight: bold
+            }
+            .inherit {
+                color: inherit;
+                background-color: inherit;
+                text-decoration: inherit;
+            }
+            .centered-container {
+                margin-top: 40px;
+                max-width: 1000px;
+                margin: 40px auto;
+            }
+        </style>
+        <div class="centered-container">
+            <div>
+                <a class="inherit" href="/prod/1">
+                    <img class="fillscreen" src="images/Banner_1.JPG">
+                </a>
+            </div>
+            <div>
+                <a class="inherit" href="/prod/5">
+                    <img class="fillscreen" src="images/Banner_2.JPG">
+                </a>
+            </div>
+
+            <div class="heading">Featured brands</div>
+            <two-columns-grid column-width="480" gutter="10">
+                <div>
+                    <a class="inherit" href="/prod/3">
+                        <img class="square" src="images/Square_1.JPG">
+                    </a>
+                </div>
+                <div>
+                    <a class="inherit" href="/prod/6">
+                        <img class="square" src="images/Square_2.JPG">
+                    </a>
+                </div>
+            </two-columns-grid>
+            <div class="heading">Recommended for you</div>
+            <two-columns-grid column-width="480" gutter="10">
+                <div>
+                    <a class="inherit" href="/prod/1">
+                        <img class="square" src="images/Square_3.JPG">
+                    </a>
+                </div>
+                <div>
+                    <a class="inherit" href="/prod/1">
+                        <img class="square" src="images/Square_4.JPG">
+                    </a>
+                </div>
+            </two-columns-grid>
+        </div>
+    </template>
+    <script>
+        class InfinityHome extends Polymer.Element {
+            static get is() {
+                return 'my-home';
+            }
         }
-    
-  </style>
-  <div class="centered-container">
-    <div>
-       <a  class="inherit" href="/prod/1">
-    <img class="fillscreen" src="images/Banner_1.JPG">
-     </a>
-    </div>
- <div>
-       <a  class="inherit" href="/prod/5">
-    <img class="fillscreen" src="images/Banner_2.JPG">
-     </a>
-    </div>
 
-  <div class="heading">Featured brands</div>
-    <two-columns-grid column-width="480" gutter="10">
-<div>
-       <a  class="inherit" href="/prod/3">
-    <img class="square" src="images/Square_1.JPG">
-     </a>
-    </div>
-    <div>
-       <a  class="inherit" href="/prod/6">
-    <img class="square" src="images/Square_2.JPG">
-     </a>
-    </div>
-</two-columns-grid>      
-  <div class="heading">Recommended for you</div>
-    <two-columns-grid column-width="480" gutter="10">
-<div>
-       <a  class="inherit" href="/prod/1">
-    <img class="square" src="images/Square_3.JPG">
-     </a>
-    </div>
-    <div>
-       <a  class="inherit" href="/prod/1">
-    <img class="square" src="images/Square_4.JPG">
-     </a>
-    </div>
-      </two-columns-grid>
-  </div>
-</template>
-  
-
-  
-  
-  <script>
-    class InfinityHome extends Polymer.Element {
-      static get is() { return 'my-home'; }      
-   }
-
-    window.customElements.define(InfinityHome.is, InfinityHome);
-  </script>
+        window.customElements.define(InfinityHome.is, InfinityHome);
+    </script>
 </dom-module>

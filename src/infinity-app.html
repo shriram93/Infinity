@@ -1,4 +1,3 @@
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
@@ -36,337 +35,304 @@
 
 
 <dom-module id="infinity-app">
-  <template>
-    <style>
-      :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: #424242;
+    <template>
+        <style>
+            :host {
+                --app-primary-color: #4285f4;
+                --app-secondary-color: #424242;
+                display: block;
+            }
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
+            app-header {
+                color: #fff;
+                background-color: var(--app-primary-color);
+            }
+            .inherit {
+                color: inherit;
+                background-color: inherit;
+            }
+            .drawer-list {
+                margin: 0 20px;
+            }
+            .drawer-list a {
+                display: block;
+                padding: 0 16px;
+                text-decoration: none;
+                color: var(--app-secondary-color);
+                line-height: 40px;
+            }
+            .separator {
+                border-bottom: 1px solid #CCC;
+            }
+            .drawer-list a paper-icon-button {
+                margin-right: 20px;
+                bottom: 3px;
+                position: relative;
+                color: var(--app-primary-color);
+            }
+            .headerdisp {
+                margin-right: 5px;
+            }
+        </style>
 
-        display: block;
-      }
 
-      app-drawer-layout:not([narrow]) [drawer-toggle] {
-        display: none;
-      }
+        <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+        <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
+        <app-route route="{{subroute}}" pattern="/:id" data="{{idData}}"></app-route>
 
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
+        <app-drawer-layout fullbleed narrow="{{narrow}}">
+            <!-- Drawer content -->
+            <app-drawer opened="{{drawerOpened}}" id="drawer" slot="drawer" swipe-open="[[narrow]]">
+                <app-toolbar class="separator">
+                    <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+                        <a name="home" href="[[rootPath]]home">
+                            <paper-icon-button class="drawer-icon" icon="my-icons:home"></paper-icon-button>
+                            Home
+                        </a>
+                    </iron-selector>
+                </app-toolbar>
+                <iron-selector id="drawer-select" selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+                    <iron-selector name="catg" selected="{{selectedIndex}}" attr-for-selected="name">
+                        <a name="electronics" href="[[rootPath]]catg">
+                            <paper-icon-button class="drawer-icon" icon="my-icons:smartphone"></paper-icon-button> Electronics
+                        </a>
+                        <a name="homeappliances" href="[[rootPath]]catg">
+                            <paper-icon-button class="drawer-icon" icon="my-icons:tv"></paper-icon-button> Home Appliances
+                        </a>
+                        <a name="books" href="[[rootPath]]catg" class="separator">
+                            <paper-icon-button class="drawer-icon" icon="my-icons:library-books"></paper-icon-button> Books
+                        </a>
+                    </iron-selector>
+                    <a name="cart" href="[[rootPath]]cart">
+                        <paper-icon-button class="drawer-icon" icon="my-icons:shopping-cart"></paper-icon-button> My Cart
+                    </a>
+                    <a name="account" href="[[rootPath]]account">
+                        <paper-icon-button class="drawer-icon" icon="my-icons:account-circle"></paper-icon-button> My Account
+                    </a>
+                </iron-selector>
+            </app-drawer>
 
-       .inherit {
-        color: inherit;
-        background-color: inherit;
-      }
+            <!-- Main content -->
+            <app-header-layout has-scrolling-region>
 
-      .drawer-list {
-        margin: 0 20px;
-      }
+                <app-header slot="header" condenses reveals effects="waterfall">
+                    <app-toolbar>
+                        <!-- menu button -->
+                        <paper-icon-button drawer-toggle icon="my-icons:menu" hidden$="[[_shouldHideMenuButton(page)]]">
+                        </paper-icon-button>
+                        <!-- back button -->
+                        <paper-icon-button drawer-toggle icon="my-icons:arrow-back" hidden$="[[_shouldHideBackButton(page)]]" on-tap="_goback">
+                        </paper-icon-button>
+                        <div main-title>Infinity</div>
+                        <div class="headerdisp">
+                            [[username]]
+                        </div>
+                        <a name="login" id="loginuser" class="headerdisp inherit" href="[[rootPath]]login" hidden$="{{hide1}}">
+                            <paper-icon-button icon="my-icons:person"></paper-icon-button>
+                        </a>
+                        <paper-tooltip for="loginuser">Log in</paper-tooltip>
+                        <paper-icon-button id="logoutuser" class="headerdisp inherit" icon="my-icons:exit-to-app" hidden$="{{hide}}" on-click="_signout"> </paper-icon-button>
+                        <paper-tooltip for="logoutuser">Sign out</paper-tooltip>
+                        <a name="cart" id="shopcart" href="[[rootPath]]cart" class="inherit">
+                            <paper-icon-button icon="my-icons:shopping-cart" hidden$="{{hide2}}"></paper-icon-button>
+                        </a>
+                        <paper-tooltip for="shopcart">Shopping cart</paper-tooltip>
+                    </app-toolbar>
+                </app-header>
 
-      .drawer-list a {
-        display: block;
-        padding: 0 16px;
-        text-decoration: none;
-        color: var(--app-secondary-color);
-        line-height: 40px;
-      }
 
-      .separator {
-      border-bottom: 1px solid #CCC;
-      }
-      
-       .drawer-list a paper-icon-button {
-         margin-right: 20px;
-         bottom: 3px;
-         position:relative;
-         color: var(--app-primary-color);
-       }
-      
-      .headerdisp {
-        margin-right:5px;
-      }
-  
-    </style>
+                <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view404" role="main">
+                    <my-login name="login"></my-login>
+                    <my-home name="home"></my-home>
+                    <my-catg name="catg" product="[[category]]" rootpath="[[rootPath]]"></my-catg>
+                    <my-cart name="cart" cartdata=[[cartdata]]></my-cart>
+                    <my-account name="account"></my-account>
+                    <my-prod name="prod" info="[[info]]"></my-prod>
+                    <my-view404 name="view404"></my-view404>
+                </iron-pages>
+            </app-header-layout>
+        </app-drawer-layout>
+    </template>
 
-			
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="[[rootPath]]:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
-    <app-route
-        route="{{subroute}}"
-        pattern="/:id"
-        data="{{idData}}"></app-route>
+    <script>
+        class MyApp extends Polymer.Element {
+            static get is() {
+                return 'infinity-app';
+            }
 
-    <app-drawer-layout  fullbleed  narrow="{{narrow}}">
-      <!-- Drawer content -->
-      <app-drawer opened="{{drawerOpened}}"  id="drawer" slot="drawer" swipe-open="[[narrow]]">
-        <app-toolbar class="separator">          
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="home" href="[[rootPath]]home">
-              <paper-icon-button class="drawer-icon" icon="my-icons:home"></paper-icon-button>
-              Home
-            </a>
-          </iron-selector>
-        </app-toolbar>
-        <iron-selector id="drawer-select" selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <iron-selector name="catg" selected="{{selectedIndex}}" attr-for-selected="name"  >
-          <a name="electronics" href="[[rootPath]]catg">
-            <paper-icon-button class="drawer-icon" icon="my-icons:smartphone"></paper-icon-button> Electronics
-          </a>
-          <a name="homeappliances" href="[[rootPath]]catg">
-            <paper-icon-button class="drawer-icon" icon="my-icons:tv"></paper-icon-button> Home Appliances
-          </a>
-          <a name="books" href="[[rootPath]]catg" class="separator">
-            <paper-icon-button class="drawer-icon" icon="my-icons:library-books"></paper-icon-button> Books
-          </a>
-         </iron-selector>
-          <a name="cart" href="[[rootPath]]cart">
-            <paper-icon-button class="drawer-icon" icon="my-icons:shopping-cart"></paper-icon-button> My Cart
-          </a>
-          <a name="account" href="[[rootPath]]account">
-            <paper-icon-button class="drawer-icon" icon="my-icons:account-circle"></paper-icon-button> My Account
-          </a>
-        </iron-selector>
-      </app-drawer>
+            static get properties() {
+                return {
+                    page: {
+                        type: String,
+                        reflectToAttribute: true,
+                        observer: '_pageChanged',
+                    },
+                    products: Object,
+                    info: Object,
+                    idData: Object,
+                    cartdata: {
+                        type: Array,
+                        value: function() {
+                            return [];
+                        }
+                    },
+                    book: Object,
+                    category: Object,
+                    selectedIndex: {
+                        type: String,
+                        reflectToAttribute: true,
+                        observer: '_catgChanged'
+                    },
+                    routeData: Object,
+                    subroute: String,
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String,
+                    username: String,
+                    hide: Boolean,
+                    hide1: Boolean,
+                    hide2: Boolean
+                };
+            }
 
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
+            static get observers() {
+                return [
+                    '_routePageChanged(routeData.page)',
+                    '_productChanged(idData.id)'
+                ];
+            }
 
-        <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
-            <!-- menu button -->
-            <paper-icon-button
-                drawer-toggle
-                icon="my-icons:menu"
-                hidden$="[[_shouldHideMenuButton(page)]]">
-            </paper-icon-button>
-            <!-- back button -->
-            <paper-icon-button 
-              drawer-toggle
-              icon="my-icons:arrow-back" 
-              hidden$="[[_shouldHideBackButton(page)]]"
-              on-tap="_goback" >
-            </paper-icon-button>
-            <div main-title>Infinity</div>
-            <div class="headerdisp">
-             [[username]]
-            </div>
-             <a name="login" id="loginuser" class="headerdisp inherit" href="[[rootPath]]login" hidden$="{{hide1}}">
-            <paper-icon-button icon="my-icons:person"></paper-icon-button>
-            </a>
-            <paper-tooltip for="loginuser">Log in</paper-tooltip>
-            <paper-icon-button id="logoutuser"  class="headerdisp inherit" icon="my-icons:exit-to-app" hidden$="{{hide}}" on-click="_signout" > </paper-icon-button>
-            <paper-tooltip for="logoutuser">Sign out</paper-tooltip>
-            <a name="cart" id="shopcart" href="[[rootPath]]cart" class="inherit">
-            <paper-icon-button icon="my-icons:shopping-cart"  hidden$="{{hide2}}"></paper-icon-button>
-            </a>
-            <paper-tooltip for="shopcart">Shopping cart</paper-tooltip>
-          </app-toolbar>
-        </app-header>
-				
-				
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          <my-login name="login"></my-login>
-          <my-home name="home"></my-home>
-           <my-catg  name="catg" product="[[category]]"  rootpath="[[rootPath]]"></my-catg>
-          <my-cart name="cart" cartdata=[[cartdata]]></my-cart>
-          <my-account name="account"></my-account>
-          <my-prod name="prod" info="[[info]]"></my-prod>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
-  </template>
 
-  <script>
-    class MyApp extends Polymer.Element {
-      static get is() { return 'infinity-app'; }
-
-      static get properties() {
-        return {
-          page: {
-            type: String,
-            reflectToAttribute: true,
-            observer: '_pageChanged',
-          },
-          products: Object,
-          info: Object,
-          idData: Object,
-					cartdata: { type: Array, value: function() { return []; } },
-          book: Object,
-          category: Object,
-          selectedIndex: {
-            type: String,
-            reflectToAttribute: true,
-            observer: '_catgChanged'
-          },
-          routeData: Object,
-          subroute: String,
-          // This shouldn't be neccessary, but the Analyzer isn't picking up
-          // Polymer.Element#rootPath
-          rootPath: String,
-          username: String,
-          hide: Boolean,
-          hide1:Boolean,
-          hide2:Boolean
-        };
-      }
-
-      static get observers() {
-        return [
-          '_routePageChanged(routeData.page)',
-          '_productChanged(idData.id)'
-        ];
-      }
-      
-      
-      _productChanged(id){
-         if (!this.products) {
-          return;
-        }
-				   for (var i=0, cat; cat=this.products[i]; i++) {
-              for (var j=0, product; product=cat.items[j]; j++) {
-                  if (product.id == id) {
-                   this.info = product
-										return;
-                   }
+            _productChanged(id) {
+                if (!this.products) {
+                    return;
                 }
-           }
-      }
-      
-		   _catgChanged(selectedIndex) {
-      if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
-        
-        if (!this.products) {
-          return;
-        }
-        for (var i=0, cat; cat=this.products[i]; i++) {
-          if (cat.name === selectedIndex) { 
-                this.category = cat;
-                return;
-            }
-          }
-        }
-      
-      _routePageChanged(page) {
-          var name = localStorage.getItem("user");
-        if (!name && !page)
-          {
-            this.hide1 = true;
-            this.hide = true;
-            this.hide2 = true;
-            this.page = 'login';
-          }
-        else if(!name && page!=='login') 
-          {
-           localStorage.setItem("user","guest");
-          this.username ="Hi guest!";
-           this.hide = true;
-          this.hide1 = false;
-          this.hide2 = false;
-            this.page = page || 'home';
-          }
-        else
-          {          
-            this.username = "Hi "+name+"!";
-            this.page = page || 'home';
-            if ( name != "guest")
-             {
-            this.hide1 = true;
-            this.hide = false;
-               this.hide2 = false;
-             }
-            else{
-               this.hide1 = false;
-               this.hide = true;
-              this.hide2 = false;
-            }
-          }  
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
-          if (page == 'cart')
-          {
-          var retrievedData = localStorage.getItem("cartArray");
-          var cartArray;
-          if (retrievedData)
-          {
-            cartArray=JSON.parse(retrievedData); 
-            var count = 0;
-            for (var k=0; k<cartArray.length; k++) {
-              for (var i=0, cat; cat=this.products[i]; i++) {
-                for (var j=0, product; product=cat.items[j]; j++) {
-                  if (product.id == cartArray[k]) {
-										this.addProduct(product);
-                    count++;
-                  }
+                for (var i = 0, cat; cat = this.products[i]; i++) {
+                    for (var j = 0, product; product = cat.items[j]; j++) {
+                        if (product.id == id) {
+                            this.info = product
+                            return;
+                        }
+                    }
                 }
-              }
             }
-						localStorage.setItem("cartArray","")
-           }
-          }
-    }
-			   addProduct(product) {
-        this.push('cartdata', product);
-      }		
-      
-        _signout(){
-        localStorage.setItem("user","guest");
-          this.username ="Hi guest!";
-           this.hide = true;
-          this.hide1 = false;
-          this.hide2 = false;
-					document.getElementById('toast').show('Thanks for using infnity store, We will miss you!');
-      }
-      
-      _pageChanged(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl(  page + '.html');
-        Polymer.importHref(
-            resolvedPageUrl,
-            null,
-            this._showPage404.bind(this),
-            true);
-      }
-      _showPage404() {
-        this.page = 'view404';
-      }
-      
-      _shouldHideMenuButton(page) {
-        if (page === 'login' || page ==='home')
-          {
-            return false;
-          }
-          return true;
-      }
-      _shouldHideBackButton(page) {
-        return page === 'home' || page ==='login';
-      }
-      _goback() {
-      window.history.back();
-      }
-			
-    }
 
-    window.customElements.define(MyApp.is, MyApp);
-  </script>
-  
-  <script type="text/javascript">
-            function Warn(message) {
-               alert (message);
+            _catgChanged(selectedIndex) {
+                if (!this.$.drawer.persistent) {
+                    this.$.drawer.close();
+                }
+
+                if (!this.products) {
+                    return;
+                }
+                for (var i = 0, cat; cat = this.products[i]; i++) {
+                    if (cat.name === selectedIndex) {
+                        this.category = cat;
+                        return;
+                    }
+                }
             }
-		
-    
-   </script>
-  
+
+            _routePageChanged(page) {
+                var name = localStorage.getItem("user");
+                if (!name && !page) {
+                    this.hide1 = true;
+                    this.hide = true;
+                    this.hide2 = true;
+                    this.page = 'login';
+                } else if (!name && page !== 'login') {
+                    localStorage.setItem("user", "guest");
+                    this.username = "Hi guest!";
+                    this.hide = true;
+                    this.hide1 = false;
+                    this.hide2 = false;
+                    this.page = page || 'home';
+                } else {
+                    this.username = "Hi " + name + "!";
+                    this.page = page || 'home';
+                    if (name != "guest") {
+                        this.hide1 = true;
+                        this.hide = false;
+                        this.hide2 = false;
+                    } else {
+                        this.hide1 = false;
+                        this.hide = true;
+                        this.hide2 = false;
+                    }
+                }
+                if (!this.$.drawer.persistent) {
+                    this.$.drawer.close();
+                }
+                if (page == 'cart') {
+                    var retrievedData = localStorage.getItem("cartArray");
+                    var cartArray;
+                    if (retrievedData) {
+                        cartArray = JSON.parse(retrievedData);
+                        var count = 0;
+                        for (var k = 0; k < cartArray.length; k++) {
+                            for (var i = 0, cat; cat = this.products[i]; i++) {
+                                for (var j = 0, product; product = cat.items[j]; j++) {
+                                    if (product.id == cartArray[k]) {
+                                        this.addProduct(product);
+                                        count++;
+                                    }
+                                }
+                            }
+                        }
+                        localStorage.setItem("cartArray", "")
+                    }
+                }
+            }
+            addProduct(product) {
+                this.push('cartdata', product);
+            }
+
+            _signout() {
+                localStorage.setItem("user", "guest");
+                this.username = "Hi guest!";
+                this.hide = true;
+                this.hide1 = false;
+                this.hide2 = false;
+                document.getElementById('toast').show('Thanks for using infnity store, We will miss you!');
+            }
+
+            _pageChanged(page) {
+                // Load page import on demand. Show 404 page if fails
+                var resolvedPageUrl = this.resolveUrl(page + '.html');
+                Polymer.importHref(
+                    resolvedPageUrl,
+                    null,
+                    this._showPage404.bind(this),
+                    true);
+            }
+            _showPage404() {
+                this.page = 'view404';
+            }
+
+            _shouldHideMenuButton(page) {
+                if (page === 'login' || page === 'home') {
+                    return false;
+                }
+                return true;
+            }
+            _shouldHideBackButton(page) {
+                return page === 'home' || page === 'login';
+            }
+            _goback() {
+                window.history.back();
+            }
+
+        }
+
+        window.customElements.define(MyApp.is, MyApp);
+    </script>
+
+    <script type="text/javascript">
+        function Warn(message) {
+            alert(message);
+        }
+    </script>
+
 </dom-module>

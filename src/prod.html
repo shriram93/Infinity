@@ -1,135 +1,126 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-prod">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-        padding: 10px;
-      }
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+            .centered-container {
+                margin: 0 4%;
+            }
+            .image-placeholder {
+                text-align: center;
+                height: 400px;
+                display: block;
+                float: left;
+            }
+            img {
+                height: 100%;
+                width: auto;
+            }
+            .card {
+                color: #515151;
+                padding: 0px;
+                margin: 10px;
+                @apply --layout-vertical;
+                text-decoration: none;
+            }
+            .prod-header {
+                color: #515151;
+            }
+            .prod-price {
+                color: #757575;
+                margin: 10px 0;
+                font-size: x-large
+            }
+            paper-button {
+                background-color: #4285f4;
+                color: #ffffff;
+                font-weight: bolder;
+                margin-top: 50px;
+            }
+            iron-icon {
+                margin-right: 10px;
+            }
+        </style>
 
-          .centered-container {
-          margin: 0 4%;
-        }
-      
-      .image-placeholder {
-        text-align:center;
-        height:400px; 
-        display: block; 
-        float:left;
-      }
-          img {
-        height:100%;
-        width: auto;               
-      }
-           .card{ 
-        color:#515151;      
-        padding:0px;
-        margin:10px;
-        @apply --layout-vertical;
-        text-decoration: none;
-      }
-      .prod-header { 
-        color:#515151; 
-      }
-      
-    .prod-price { 
-      color: #757575; 
-      margin: 10px 0;
-      font-size:x-large }
-      paper-button {
-        background-color: #4285f4;
-        color:#ffffff ;
-        font-weight:bolder	;
-        margin-top:50px;
-      }
- 
-      iron-icon {
-        margin-right:10px;
-      }
-   </style>
-  
-    <div class="centered-container">
-      <paper-card class="card">
-<two-columns-grid column-width="480" gutter="4">
-   <div class="image-placeholder">
-      <img src="[[info.image]]" >
-   </div>
-  <div>
-  <div class="prod-header"><h2>
-    [[info.title]]
-    </h2></div>
-    <div class="prod-price">[[info.price]]</div>
-    <div class="prod-header"><h3>
-      Product Description
-      </h3></div>
-  <div>[[info.description]]</div>
-<two-columns-grid column-width="450" gutter="4">
-      <paper-button raised on-click="handleClick"><iron-icon icon="my-icons:add-shopping-cart"></iron-icon>ADD TO CART</paper-button>
-    </two-columns-grid>
-</two-columns-grid>
-    </paper-card>  
-         
-      </div>
-   
-  </template>
+        <div class="centered-container">
+            <paper-card class="card">
+                <two-columns-grid column-width="480" gutter="4">
+                    <div class="image-placeholder">
+                        <img src="[[info.image]]">
+                    </div>
+                    <div>
+                        <div class="prod-header">
+                            <h2>
+              [[info.title]]
+            </h2>
+                        </div>
+                        <div class="prod-price">[[info.price]]</div>
+                        <div class="prod-header">
+                            <h3>
+               Product Description
+            </h3>
+                        </div>
+                        <div>[[info.description]]</div>
+                        <two-columns-grid column-width="450" gutter="4">
+                            <paper-button raised on-click="handleClick">
+                                <iron-icon icon="my-icons:add-shopping-cart"></iron-icon>ADD TO CART</paper-button>
+                        </two-columns-grid>
+                </two-columns-grid>
+            </paper-card>
+            </div>
+    </template>
+    <script>
+        class MyView5 extends Polymer.Element {
+            static get is() {
+                return 'my-prod';
+            }
 
-  <script>
-    class MyView5 extends Polymer.Element {
-      static get is() { return 'my-prod'; }
-      
-     static get properties() {
-        return {          
-          info: Object
-           };
-      }
-          
-      handleClick() {  
-        localStorage.setItem("product", [[this.info.id]]);
-        var retrievedData = localStorage.getItem("cartArray");
-        var cartArray;
-        if (!retrievedData)
-          {
-            cartArray = [  [[this.info.id]] ];
-          }
-        else
-          {
-            cartArray=JSON.parse(retrievedData);
-            var flag = true;
-            for (var i=0; i<cartArray.length; i++) {        
-              if (cartArray[i] == parseInt([[this.info.id]]))
-                {
-                     flag = false;
-                  document.getElementById('toast').show(this.info.title+' already added to cart!');
+            static get properties() {
+                return {
+                    info: Object
+                };
+            }
+
+            handleClick() {
+                localStorage.setItem("product", [
+                    [this.info.id]
+                ]);
+                var retrievedData = localStorage.getItem("cartArray");
+                var cartArray;
+                if (!retrievedData) {
+                    cartArray = [
+                        [
+                            [this.info.id]
+                        ]
+                    ];
+                } else {
+                    cartArray = JSON.parse(retrievedData);
+                    var flag = true;
+                    for (var i = 0; i < cartArray.length; i++) {
+                        if (cartArray[i] == parseInt([
+                                [this.info.id]
+                            ])) {
+                            flag = false;
+                            document.getElementById('toast').show(this.info.title + ' already added to cart!');
+                        }
+                    }
+                    if (flag == true) {
+                        document.getElementById('toast').show(this.info.title + ' added to cart sucessfully!');
+                        cartArray.push([
+                            [this.info.id]
+                        ]);
+                    }
                 }
-              }
-            if (flag == true)
-              {
-                document.getElementById('toast').show(this.info.title+' added to cart sucessfully!');
-            cartArray.push([[this.info.id]]);   
-              }
-          }
-            localStorage.setItem("cartArray", JSON.stringify(cartArray));
-      }
-      
-           
-    }
-  
+                localStorage.setItem("cartArray", JSON.stringify(cartArray));
+            }
 
-    window.customElements.define(MyView5.is, MyView5);
-  </script>
-   
- </dom-module>
+        }
 
-
+        window.customElements.define(MyView5.is, MyView5);
+    </script>
+</dom-module>

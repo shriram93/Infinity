@@ -1,30 +1,30 @@
-
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-account">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
 
-        padding: 10px;
-      }
-    </style>
+        <div class="card">
+            <div class="circle">3</div>
+            <h1>My account</h1>
+            <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
+            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+        </div>
+    </template>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>My account</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-    </div>
-  </template>
+    <script>
+        class MyView3 extends Polymer.Element {
+            static get is() {
+                return 'my-account';
+            }
+        }
 
-  <script>
-    class MyView3 extends Polymer.Element {
-      static get is() { return 'my-account'; }
-    }
-
-    window.customElements.define(MyView3.is, MyView3);
-  </script>
+        window.customElements.define(MyView3.is, MyView3);
+    </script>
 </dom-module>
