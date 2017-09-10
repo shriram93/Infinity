@@ -16,6 +16,13 @@
                 @apply --layout-vertical;
                 text-decoration: none;
             }
+          .card1 {
+                padding: 0px;
+                margin: 20px;
+                height: auto;
+                @apply --layout-vertical;
+                text-decoration: none;
+            }
             .image-placeholder {
                 text-align: center;
                 width: 120px;
@@ -53,9 +60,42 @@
             paper-icon-button {
                 margin-top: 35%;
             }
-        </style>
+          #emptycart{
+            text-align:center;
+          }
+          .heading {
+            margin-left:3%;
+            margin-top:20px;
+          }
+           [hidden] {
+    display: none !important;
+     }
+          .heading1 {
+            float:right;
+            margin-right:3%;
+          }
+          #vdown {
+         text-align: center;
+        }
+           .orderpalce {
+                background-color: #4CAF50;
+                color: #ffffff;
+            }
+             .inherit {
+                color: inherit;
+                background-color: inherit;
+                text-decoration: inherit;
+            }
+          paper-button {
+            margin-top:20px;
+            margin-bottom:20px;
+           }
+            </style>
         <window-size width="{{width}}" height="{{height}}"></window-size>
         <div class="centered-container">
+          <h1 id="emptycart" hidden$="{{cartempty}}">
+            Your Shopping Cart is empty
+          </h1>
             <template is="dom-repeat" items="[[cartdata]]" as="prod">
                 <paper-card class="card">
                     <div id="container" style="width:100%">
@@ -77,7 +117,31 @@
                     </div>
                 </paper-card>
             </template>
-        </div>
+            <paper-card  class="card1" hidden$="{{!cartempty}}" >
+  <div id="vcontainer" style="height:100%">
+     <div id="vup"  style="height:30%">
+      <div class="heading" style="font-size: var(--font-size);font-weight: 500;">
+        PRICE DETAILS
+       </div> 
+    </div>
+   <div id="vmiddle" style="height:40%">
+     <div id="hcontainer" style="width:100%">
+     <div id="left1"  style="float:left; width: 50%;">
+       <div class="heading1" style="font-size: var(--font-size);">
+         Total Amount :
+       </div>
+    </div>
+      <div id="left2" style="float:left; width: 50%; font-size: var(--font-size);">
+        [[totalprice]]
+    </div>
+     <div id="vdown" style="height:30%">
+      <a class="inherit" href="[[rootpath]]home">
+               <paper-button raised class="orderpalce" on-click="_orderplace">PLACE YOUR ORDER</paper-button>
+       </a>
+     </div>         
+     </div>
+           
+       </paper-card>
     </template>
 
     <script>
@@ -88,6 +152,8 @@
             static get properties() {
                 return {
                     cartdata: Array,
+                    cartempty: Boolean,
+                    totalprice: String,
                     productid: String,
                     width: {
                         type: Number,
@@ -96,7 +162,7 @@
                     height: {
                         type: Number,
                         value: 100
-                    }
+                    },
                 };
             }
             static get observers() {
@@ -105,7 +171,7 @@
                 ];
             }
 
-            _layoutChanged(wd, hi) {
+          _layoutChanged(wd, hi) {
                 if (this.width <= 768) {
                     this.updateStyles({
                         '--image-height': 90 + 'px',
@@ -128,18 +194,39 @@
 
             removeItem(e) {
                 var prodid = e.target.getAttribute('indexed');
-                alert(prodid);
-                var retrievedData = localStorage.getItem("cartArray");
-                var cartArray;
-                if (retrievedData) {
-                    cartArray = JSON.parse(retrievedData);
-                    var index = cartArray.indexOf(prodid);
-                    cartArray.splice(index, 1);
+              localStorage.setItem("cartArray", "")
+              var cartArray=[];
+                var index =0;
+                var price=0;
+                var removeIndex=0;
+                for (var i = 0, product; product = this.cartdata[i]; i++) {
+                  if (parseInt(product.id) == prodid) {
+                    removeIndex=index;
+                  }
+                  else{
+                     var numb = product.price.match(/\d/g);
+                     numb = numb.join("");
+                    price = price+ parseInt(numb);
+                    cartArray.push([[product.id]]);
+                    localStorage.setItem("cartArray", JSON.stringify(cartArray));
+                    this.totalprice = '₹' + price.toLocaleString();
+                   }
+                  index++;
                 }
-            }
-
-
+                this.splice('cartdata', removeIndex, 1);
+                if (this.cartdata.length == 0)
+                {
+                  this.cartempty = false; 
+                }
+             }
+          
+          _orderplace() {
+            document.getElementById('toast').show('Order placed successfully!');
+            localStorage.setItem("cartArray", "")
+            this.splice("cartdata", 0, this.cartdata.length);
+          }
+              
         }
         window.customElements.define(MyView7.is, MyView7);
     </script>
-</dom-module>
+</dom-module> 

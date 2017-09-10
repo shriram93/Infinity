@@ -75,7 +75,11 @@
             .headerdisp {
                 margin-right: 5px;
             }
-        </style>
+          #logo{
+            font-family: 'Cairo', sans-serif;
+            font-size:x-large;
+           }
+           </style>
 
 
         <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
@@ -108,7 +112,7 @@
                     <a name="cart" href="[[rootPath]]cart">
                         <paper-icon-button class="drawer-icon" icon="my-icons:shopping-cart"></paper-icon-button> My Cart
                     </a>
-                    <a name="account" href="[[rootPath]]account">
+                    <a name="account" href="[[rootPath]]account" >
                         <paper-icon-button class="drawer-icon" icon="my-icons:account-circle"></paper-icon-button> My Account
                     </a>
                 </iron-selector>
@@ -125,9 +129,9 @@
                         <!-- back button -->
                         <paper-icon-button drawer-toggle icon="my-icons:arrow-back" hidden$="[[_shouldHideBackButton(page)]]" on-tap="_goback">
                         </paper-icon-button>
-                        <div main-title>Infinity</div>
+                        <div main-title id="logo">Infinity</div>
                         <div class="headerdisp">
-                            [[username]]
+                            [[usernametxt]]
                         </div>
                         <a name="login" id="loginuser" class="headerdisp inherit" href="[[rootPath]]login" hidden$="{{hide1}}">
                             <paper-icon-button icon="my-icons:person"></paper-icon-button>
@@ -147,8 +151,8 @@
                     <my-login name="login"></my-login>
                     <my-home name="home"></my-home>
                     <my-catg name="catg" product="[[category]]" rootpath="[[rootPath]]"></my-catg>
-                    <my-cart name="cart" cartdata=[[cartdata]]></my-cart>
-                    <my-account name="account"></my-account>
+                    <my-cart name="cart" cartdata=[[cartdata]] cartempty=[[cartempty]] totalprice=[[totalprice]]></my-cart>
+                    <my-account name="account" username="[[username]]"></my-account>
                     <my-prod name="prod" info="[[info]]"></my-prod>
                     <my-view404 name="view404"></my-view404>
                 </iron-pages>
@@ -190,10 +194,13 @@
                     // This shouldn't be neccessary, but the Analyzer isn't picking up
                     // Polymer.Element#rootPath
                     rootPath: String,
+                    usernametxt: String,
                     username: String,
                     hide: Boolean,
                     hide1: Boolean,
-                    hide2: Boolean
+                    hide2: Boolean,
+                    cartempty: Boolean,
+                    totalprice: String
                 };
             }
 
@@ -237,6 +244,7 @@
 
             _routePageChanged(page) {
                 var name = localStorage.getItem("user");
+                this.username=name;
                 if (!name && !page) {
                     this.hide1 = true;
                     this.hide = true;
@@ -244,13 +252,13 @@
                     this.page = 'login';
                 } else if (!name && page !== 'login') {
                     localStorage.setItem("user", "guest");
-                    this.username = "Hi guest!";
+                    this.usernametxt = "Hi guest!";
                     this.hide = true;
                     this.hide1 = false;
                     this.hide2 = false;
                     this.page = page || 'home';
                 } else {
-                    this.username = "Hi " + name + "!";
+                    this.usernametxt = "Hi " + name + "!";
                     this.page = page || 'home';
                     if (name != "guest") {
                         this.hide1 = true;
@@ -268,34 +276,51 @@
                 if (page == 'cart') {
                     var retrievedData = localStorage.getItem("cartArray");
                     var cartArray;
+                    this.cartempty = false;
+                     var price = 0;
                     if (retrievedData) {
+                     this.cartempty = true;
                         cartArray = JSON.parse(retrievedData);
                         var count = 0;
                         for (var k = 0; k < cartArray.length; k++) {
                             for (var i = 0, cat; cat = this.products[i]; i++) {
                                 for (var j = 0, product; product = cat.items[j]; j++) {
                                     if (product.id == cartArray[k]) {
-                                        this.addProduct(product);
+                                        this.addProduct(product,cartArray[k]);
+                                        var numb = product.price.match(/\d/g);
+                                        numb = numb.join("");
+                                        price= price+ parseInt(numb);
                                         count++;
+                                      
                                     }
                                 }
                             }
                         }
-                        localStorage.setItem("cartArray", "")
+                      
+                      this.totalprice = '₹' + price.toLocaleString();
                     }
                 }
             }
-            addProduct(product) {
+            addProduct(product,prodid) {
+              var flag = true;
+              for (var i = 0, prod; prod = this.cartdata[i]; i++) {
+                  if (parseInt(prod.id) == prodid) {
+                    flag = false;
+                  }
+                }  
+              if (flag == true)
+                {           
                 this.push('cartdata', product);
+                }
             }
 
             _signout() {
                 localStorage.setItem("user", "guest");
-                this.username = "Hi guest!";
+                this.usernametxt = "Hi guest!";
                 this.hide = true;
                 this.hide1 = false;
                 this.hide2 = false;
-                document.getElementById('toast').show('Thanks for using infnity store, We will miss you!');
+                document.getElementById('toast').show('Thank you for using infinity store, We will miss you!');
             }
 
             _pageChanged(page) {

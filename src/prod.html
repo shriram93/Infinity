@@ -96,8 +96,10 @@
                     cartArray = [
                         [
                             [this.info.id]
+                          
                         ]
                     ];
+                  document.getElementById('toast').show(this.info.title + ' added to cart sucessfully!');
                 } else {
                     cartArray = JSON.parse(retrievedData);
                     var flag = true;

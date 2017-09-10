@@ -11,10 +11,8 @@
         </style>
 
         <div class="card">
-            <div class="circle">3</div>
-            <h1>My account</h1>
-            <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+            <h1>Account information</h1>
+            <p>Name: [[username]]</p>           
         </div>
     </template>
 
@@ -23,8 +21,13 @@
             static get is() {
                 return 'my-account';
             }
+          static get properties() {
+                return {
+                  username: String
+                };
+            }
         }
 
         window.customElements.define(MyView3.is, MyView3);
     </script>
-</dom-module>
+</dom-module> 
