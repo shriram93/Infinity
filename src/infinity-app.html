@@ -16,6 +16,12 @@
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/window-size/window-size.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="two-columns-grid.html">
 <link rel="import" href="my-icons.html">
 
@@ -23,7 +29,11 @@
 <link rel="lazy-import" href="catg.html">
 <link rel="lazy-import" href="cart.html">
 <link rel="lazy-import" href="account.html">
+<link rel="lazy-import" href="login.html">
+<link rel="lazy-import" href="prod.html">
 <link rel="lazy-import" href="view404.html">
+
+
 
 <dom-module id="infinity-app">
   <template>
@@ -71,18 +81,28 @@
          position:relative;
          color: var(--app-primary-color);
        }
+      
+      .headerdisp {
+        margin-right:5px;
+      }
+  
     </style>
 
+			
     <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
     <app-route
         route="{{route}}"
         pattern="[[rootPath]]:page"
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
+    <app-route
+        route="{{subroute}}"
+        pattern="/:id"
+        data="{{idData}}"></app-route>
 
-    <app-drawer-layout fullbleed narrow="{{narrow}}">
+    <app-drawer-layout  fullbleed  narrow="{{narrow}}">
       <!-- Drawer content -->
-      <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+      <app-drawer opened="{{drawerOpened}}"  id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar class="separator">          
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
             <a name="home" href="[[rootPath]]home">
@@ -131,28 +151,41 @@
               on-tap="_goback" >
             </paper-icon-button>
             <div main-title>Infinity</div>
-            <a name="cart" href="[[rootPath]]cart" class="inherit">
-            <paper-icon-button icon="my-icons:shopping-cart"></paper-icon-button>
+            <div class="headerdisp">
+             [[username]]
+            </div>
+             <a name="login" id="loginuser" class="headerdisp inherit" href="[[rootPath]]login" hidden$="{{hide1}}">
+            <paper-icon-button icon="my-icons:person"></paper-icon-button>
             </a>
+            <paper-tooltip for="loginuser">Log in</paper-tooltip>
+            <paper-icon-button id="logoutuser"  class="headerdisp inherit" icon="my-icons:exit-to-app" hidden$="{{hide}}" on-click="_signout" > </paper-icon-button>
+            <paper-tooltip for="logoutuser">Sign out</paper-tooltip>
+            <a name="cart" id="shopcart" href="[[rootPath]]cart" class="inherit">
+            <paper-icon-button icon="my-icons:shopping-cart"  hidden$="{{hide2}}"></paper-icon-button>
+            </a>
+            <paper-tooltip for="shopcart">Shopping cart</paper-tooltip>
           </app-toolbar>
         </app-header>
-
+				
+				
         <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
+          <my-login name="login"></my-login>
           <my-home name="home"></my-home>
-           <my-catg  name="catg" product="[[category]]"></my-catg>
-          <my-cart name="cart"></my-cart>
+           <my-catg  name="catg" product="[[category]]"  rootpath="[[rootPath]]"></my-catg>
+          <my-cart name="cart" cartdata=[[cartdata]]></my-cart>
           <my-account name="account"></my-account>
+          <my-prod name="prod" info="[[info]]"></my-prod>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+  <script>
     class MyApp extends Polymer.Element {
       static get is() { return 'infinity-app'; }
 
@@ -164,6 +197,10 @@
             observer: '_pageChanged',
           },
           products: Object,
+          info: Object,
+          idData: Object,
+					cartdata: { type: Array, value: function() { return []; } },
+          book: Object,
           category: Object,
           selectedIndex: {
             type: String,
@@ -174,18 +211,37 @@
           subroute: String,
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
-          rootPath: String
+          rootPath: String,
+          username: String,
+          hide: Boolean,
+          hide1:Boolean,
+          hide2:Boolean
         };
       }
 
       static get observers() {
         return [
           '_routePageChanged(routeData.page)',
+          '_productChanged(idData.id)'
         ];
       }
       
-      _catgChanged(selectedIndex) {
-        
+      
+      _productChanged(id){
+         if (!this.products) {
+          return;
+        }
+				   for (var i=0, cat; cat=this.products[i]; i++) {
+              for (var j=0, product; product=cat.items[j]; j++) {
+                  if (product.id == id) {
+                   this.info = product
+										return;
+                   }
+                }
+           }
+      }
+      
+		   _catgChanged(selectedIndex) {
       if (!this.$.drawer.persistent) {
           this.$.drawer.close();
         }
@@ -202,16 +258,77 @@
         }
       
       _routePageChanged(page) {
-        // If no page was found in the route data, page will be an empty string.
-        // Deault to 'home' in that case.
-        this.page = page || 'home';
-
-        // Close a non-persistent drawer when the page & route are changed.
+          var name = localStorage.getItem("user");
+        if (!name && !page)
+          {
+            this.hide1 = true;
+            this.hide = true;
+            this.hide2 = true;
+            this.page = 'login';
+          }
+        else if(!name && page!=='login') 
+          {
+           localStorage.setItem("user","guest");
+          this.username ="Hi guest!";
+           this.hide = true;
+          this.hide1 = false;
+          this.hide2 = false;
+            this.page = page || 'home';
+          }
+        else
+          {          
+            this.username = "Hi "+name+"!";
+            this.page = page || 'home';
+            if ( name != "guest")
+             {
+            this.hide1 = true;
+            this.hide = false;
+               this.hide2 = false;
+             }
+            else{
+               this.hide1 = false;
+               this.hide = true;
+              this.hide2 = false;
+            }
+          }  
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
         }
+          if (page == 'cart')
+          {
+          var retrievedData = localStorage.getItem("cartArray");
+          var cartArray;
+          if (retrievedData)
+          {
+            cartArray=JSON.parse(retrievedData); 
+            var count = 0;
+            for (var k=0; k<cartArray.length; k++) {
+              for (var i=0, cat; cat=this.products[i]; i++) {
+                for (var j=0, product; product=cat.items[j]; j++) {
+                  if (product.id == cartArray[k]) {
+										this.addProduct(product);
+                    count++;
+                  }
+                }
+              }
+            }
+						localStorage.setItem("cartArray","")
+           }
+          }
+    }
+			   addProduct(product) {
+        this.push('cartdata', product);
+      }		
+      
+        _signout(){
+        localStorage.setItem("user","guest");
+          this.username ="Hi guest!";
+           this.hide = true;
+          this.hide1 = false;
+          this.hide2 = false;
+					document.getElementById('toast').show('Thanks for using infnity store, We will miss you!');
       }
-
+      
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl(  page + '.html');
@@ -226,14 +343,19 @@
       }
       
       _shouldHideMenuButton(page) {
-        return page !== 'home';
+        if (page === 'login' || page ==='home')
+          {
+            return false;
+          }
+          return true;
       }
       _shouldHideBackButton(page) {
-        return page === 'home';
+        return page === 'home' || page ==='login';
       }
       _goback() {
       window.history.back();
       }
+			
     }
 
     window.customElements.define(MyApp.is, MyApp);
@@ -243,6 +365,8 @@
             function Warn(message) {
                alert (message);
             }
+		
+    
    </script>
   
 </dom-module>

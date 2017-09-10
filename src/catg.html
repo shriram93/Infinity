@@ -16,10 +16,10 @@
         text-decoration: inherit;
       }
        
-      .card{
-        
-        font-size: 22px;
-        line-height: px;
+      .card{        
+        font-size: var(--font-size);
+        padding:0px;
+        margin:10px;
         @apply --layout-vertical;
         text-decoration: none;
       }
@@ -28,18 +28,21 @@
         width: auto;               
       }
       .image-placeholder {
-        text-align:center;
         width:120px; 
         height:120px; 
         display: block; 
         margin-right:20px;
         float:left;
       }
+       .centered-container {
+          margin: 0 4%;
+        }
     </style>    
-   
-     
+   <window-size width="{{width}}" height="{{height}}"></window-size>
+     <div class="centered-container">
     <two-columns-grid column-width="480" gutter="4">
      <template is="dom-repeat" items="[[product.items]]" as="prod">
+  <a  class="inherit" href="[[rootpath]]prod/[[prod.id]]">
  <paper-card class="card">
   <div class="card-content">
     <div class="image-placeholder">
@@ -47,26 +50,61 @@
     </div>
     <div class="item-header">[[prod.title]]</div>
     <div>[[prod.price]]</div>
-    
-</div>  
-    
-</paper-card>
+  </div>  
+ </paper-card>
+ </a>
      </template>
     </two-columns-grid> 
- 
+    </div>
   </template>
  
  
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+<script>
     class categorylist extends Polymer.Element {
       static get is() { return 'my-catg'; }
       static get properties() {
         return {          
-          product: Object
-           };
+          product: Object,
+          rootpath: String,
+          width: {
+            type: Number,
+            value: 100
+          },
+          height: {
+            type: Number,
+            value: 100
+          }
+        };
       }
-    }
+      static get observers() {
+        return [
+          '_layoutChanged(width,height)',
+        ];
+      }
+  
+    _layoutChanged(wd,hi){
+      if (this.width < 768)
+        {
+          this.updateStyles({
+        
+          '--font-size': 14 + 'px',
+          });
+        }
+      else
+        {
+          this.updateStyles({
+        
+          '--font-size': 22 + 'px',
+          });
+        }
+    
+    } 
 
+      
+      
+    }
+  
+   
     window.customElements.define(categorylist.is, categorylist);
   </script>
 

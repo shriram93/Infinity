@@ -1,11 +1,13 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/infinity-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/account.html",
+    "src/cart.html",
+    "src/catg.html",
+    "src/home.html",
+    "src/cart.html",
+    "src/view404.html"
   ],
   "sources": [
     "src/**/*",

@@ -1,89 +1,76 @@
-[
-  {
-    "name":"electronics",
-    "items":[
-      {
-        "id": "1",
-        "title":"Mobile 1",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/mobile1.JPG",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "2",
-        "title":"Mobile 2",
-        "price":50.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/mobile2.JPG",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "3",
-        "title":"Mobile 3",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/mobile3.JPG",
-        "largeImage":"../images/large.jpg"
-      }
-    ]
-  },
-  {
-    "name":"homeappliances",
-    "items":[
-      {
-        "id": "1",
-        "title":"Porduct 1",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "2",
-        "title":"Product 2",
-        "price":50.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "3",
-        "title":"Product 3",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      }
-    ]
-  },
-  {
-    "name":"books",
-    "items":[
-      {
-        "id": "1",
-        "title":"Book 1",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "2",
-        "title":"Book 2",
-        "price":50.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      },
-      {
-        "id": "3",
-        "title":"Book 3",
-        "price":14.75,
-        "description":"Stay casual and cool in this 100% organic pre-shrunk cotton T-shirt. Available in charcoal grey with full-color YouTube logo screened on front.",
-        "image":"../images/small.jpg",
-        "largeImage":"../images/large.jpg"
-      }
-    ]
-  }
+[{
+		"name": "electronics",
+		"items": [{
+				"id": "1",
+				"title": "Mi A1 (Black, 64 GB)  (4 GB RAM)",
+				"price": "₹14,999",
+				"description": "Don’t like carrying your bulky DSLR camera everywhere you go, but love capturing amazing photos and selfies? Then this sleek and stylish Mi A1 is what you need. With this smartphone’s dual cameras, you can capture life’s best moments without compromising on the clarity and color.",
+				"image": "../images/mobile1.JPG"
+			},
+			{
+				"id": "2",
+				"title": "Redmi Note 4 (Black, 64 GB)  (4 GB RAM)",
+				"price": "₹12,999",
+				"description": "Upgrade to the Redmi Note 4 and experience power like never before. The Redmi Note 4 offers high-speed performance along with a long battery life.",
+				"image": "../images/mobile2.JPG"
+			},
+			{
+				"id": "3",
+				"title": "Samsung Galaxy On Max (Black, 32 GB)  (4 GB RAM)",
+				"price": "₹16,900",
+				"description": "Meet the Samsung Galaxy On Max with flagship camera f/1.7 - the smartphone that enhances your multimedia experience. With a 13 MP rear camera and 13 MP front camera, this smartphone takes your mobile photography to the next level. Its powerful octa-core processor, along with 4 GB RAM makes way for a lag-free multitasking experience.",
+				"image": "../images/mobile3.JPG"
+			}
+		]
+	},
+	{
+		"name": "homeappliances",
+		"items": [{
+				"id": "4",
+				"title": "Vu 140cm (55 inch) Full HD LED TV ",
+				"price": "₹46,990",
+				"description": "Be it movie nights with the family or sports night with the gang, with the Vu LED TV it will never be the same. This 140 cm TV with its 178-degree wide viewing angle and Full HD display will deliver unmatchably high-quality immersive viewing experience.",
+				"image": "../images/product1.JPG"
+			},
+			{
+				"id": "5",
+				"title": "IFB 6 kg Fully Automatic Front Load Washing Machine",
+				"price": "₹21,999",
+				"description": "With the IFB fully automatic washing machine, you can transform that dirty pile of clothes into fresh and clean laundry. With 15 wash programs and 800 rpm, this 6 kg washing machine ensures seamless performance.",
+				"image": "../images/product2.JPG"
+			},
+			{
+				"id": "6",
+				"title": "Samsung 192 L Direct Cool Single Door Refrigerator",
+				"price": "₹13,140",
+				"description": "Boasting a round-top design and innovative features, this Samsung 192 L refrigerator is as sleek as it is efficient. Featuring an inbuilt stabilizer, this direct-cool refrigerator can perform stably even during high voltage fluctuations. The toughened glass shelves of this Samsung fridge are designed to hold weights of up to 150 kg.",
+				"image": "../images/product3.JPG"
+			}
+		]
+	},
+	{
+		"name": "books",
+		"items": [{
+				"id": "7",
+				"title": "One Indian Girl ",
+				"price": "₹88",
+				"description": "Bestselling author Chetan Bhagat, writing for the first time in a female voice, brings to you One Indian Girl, the heart-warming story of a modern Indian girl.",
+				"image": "../images/book1.JPG"
+			},
+			{
+				"id": "8",
+				"title": "Quantitative Aptitude For Examinations",
+				"price": "₹318",
+				"description": "Quantitative Aptitude For Competitive Examinations comprehensively covers topics for the Quantitative Aptitude and Data Interpretation section of competitive exams like management entrance exams, job recruitment exams etc.",
+				"image": "../images/book2.JPG"
+			},
+			{
+				"id": "9",
+				"title": "Data Structures & Algorithms in Java 6th Edition",
+				"price": "₹667",
+				"description": "The design and analysis of efficient data structures has long been recognized as a key component of the computer science curriculum. Goodrich and tomassia's approach to this classic topic is based on the object-oriented paradigm as the framework of choice for the design of data structures. For each adt presented in the text, the authors provide an associated java interface. Concrete data structures realizing the adts are provided as java classes implementing the interfaces. ",
+				"image": "../images/book3.JPG"
+			}
+		]
+	}
 ]

@@ -1,12 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
@@ -19,21 +10,141 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         padding: 10px;
       }
+       .card{        
+        font-size: var(--font-size);
+        padding:0px;
+        margin:20px;
+        height: auto;
+        @apply --layout-vertical;
+        text-decoration: none;
+      }
+       .image-placeholder {
+        text-align:center;
+        width:120px; 
+        height:var(--image-height); 
+        display: block; 
+        margin-right:20px;        
+      }
+   
+        img {
+        height:100%;
+        width: auto;               
+      }
+      .centered-container {
+           width: 100%;
+       height:auto;
+        }
+      #left{
+        float:left; 
+        width: var(--left-width);
+      }
+      #middle{
+        margin-top:10px;
+        float:left;
+        width: var(--middle-width);
+      }
+      #right{
+        float:left; 
+        width: var(--right-width);
+      }
+        paper-button {
+        background-color: #4285f4;
+        color:#ffffff ;
+        font-weight:bolder	;
+        margin-top:50px;
+      }
+      paper-icon-button{
+        margin-top: 35%;
+      }
     </style>
-
-    <div class="card">
-      <div class="circle">2</div>
-      <h1>My cart</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+    <window-size width="{{width}}" height="{{height}}"></window-size>
+<div class="centered-container">
+         <template is="dom-repeat" items="[[cartdata]]" as="prod">
+            <paper-card class="card">
+    <div id = "container" style = "width:100%">
+    <div id ="left" >
+        <div class="image-placeholder" style = "float:left; width: 100%;">
+      <img src="[[prod.image]]" >
     </div>
+    </div>
+    <div id = "middle" >
+   <div class="item-header" style = "float:left; width: 100%;">[[prod.title]]</div>
+    <div>[[prod.price]]</div>
+    </div>
+    <div id = "right" >
+      <div class="image-placeholder" style = "float:left; width: 100%;">
+     <paper-icon-button id="remove" on-click="removeItem" indexed$='[[prod.id]]' icon="my-icons:clear"></paper-icon-button>
+      <paper-tooltip  for="remove">Remove</paper-tooltip>
+     </div>
+     </div>
+</div>
+   </paper-card>
+        </template>
+   </div>     
   </template>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
-    class MyView2 extends Polymer.Element {
-      static get is() { return 'my-cart'; }
-    }
+  <script>
+    class MyView7 extends Polymer.Element {
+      static get is() { return 'my-cart'; } 
+        static get properties() {
+        return {          
+          cartdata: Array,
+          productid: String,
+            width: {
+            type: Number,
+            value: 100
+          },
+          height: {
+            type: Number,
+            value: 100
+          }
+         };
+      }
+            static get observers() {
+        return [
+          '_layoutChanged(width,height)',
+        ];
+      }
+  
+    _layoutChanged(wd,hi){
+      if (this.width <= 768)
+        {
+          this.updateStyles({
+            '--image-height': 90 + 'px',
+            '--left-width': 30 + '%',
+            '--middle-width': 50 + '%',
+           '--right-width': 10 + '%',
+          '--font-size': 14 + 'px',
+          });
+        }
+      else
+        {
+          this.updateStyles({
 
-    window.customElements.define(MyView2.is, MyView2);
+               '--image-height': 120 + 'px',
+            '--left-width': 20 + '%',
+            '--middle-width': 70 + '%',
+           '--right-width': 10 + '%',
+          '--font-size': 22 + 'px',
+          });
+        }
+    }
+      
+      removeItem(e){
+      var prodid = e.target.getAttribute('indexed');
+      alert(prodid);
+        var retrievedData = localStorage.getItem("cartArray");
+        var cartArray;
+        if (retrievedData)
+        {
+          cartArray=JSON.parse(retrievedData); 
+        var index = cartArray.indexOf(prodid);
+          cartArray.splice(index, 1);
+        }
+      }
+  
+      
+  }
+    window.customElements.define(MyView7.is, MyView7);
   </script>
 </dom-module>

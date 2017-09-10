@@ -48,7 +48,7 @@ to single column when 2 columns (plus a defined gutter margin) no longer fit on 
         margin: 0 var(--grid-gutter);
       }
       :host([narrow-layout]) > ::slotted(*) {
-        width: 90%;
+        width: 100%;
         margin: var(--grid-gutter) 0;
       }
       iron-media-query {
@@ -62,7 +62,7 @@ to single column when 2 columns (plus a defined gutter margin) no longer fit on 
 
   </template>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/091FC006-D0F5-C947-A3C9-47E188822AE7/main.js" charset="UTF-8"></script><script>
+  <script>
     Polymer({
       is: 'two-columns-grid',
       properties: {
