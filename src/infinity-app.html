@@ -21,6 +21,7 @@
 <link rel="import" href="../bower_components/window-size/window-size.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="two-columns-grid.html">
 <link rel="import" href="my-icons.html">
 
@@ -52,6 +53,23 @@
             .inherit {
                 color: inherit;
                 background-color: inherit;
+                text-decoration: inherit;
+            }
+            a.nostyle:link {
+                text-decoration: inherit;
+                color: inherit;
+                cursor: auto;
+                outline: none;
+            }
+
+            a.nostyle:visited {
+                text-decoration: inherit;
+                color: inherit;
+                cursor: auto;
+                outline: none;
+            }
+            a, a:visited, a:hover, a:active {
+            color: inherit;
             }
             .drawer-list {
                 margin: 0 20px;
@@ -79,9 +97,13 @@
             font-family: 'Cairo', sans-serif;
             font-size:x-large;
            }
+                    [hidden] {
+    display: none !important;
+     }
+
            </style>
 
-
+        <window-size width="{{width}}" height="{{height}}"></window-size>
         <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
         <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
         <app-route route="{{subroute}}" pattern="/:id" data="{{idData}}"></app-route>
@@ -91,7 +113,7 @@
             <app-drawer opened="{{drawerOpened}}" id="drawer" slot="drawer" swipe-open="[[narrow]]">
                 <app-toolbar class="separator">
                     <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-                        <a name="home" href="[[rootPath]]home">
+                        <a name="home" class="nostyle inherit" href="[[rootPath]]home">
                             <paper-icon-button class="drawer-icon" icon="my-icons:home"></paper-icon-button>
                             Home
                         </a>
@@ -136,13 +158,13 @@
                         <a name="login" id="loginuser" class="headerdisp inherit" href="[[rootPath]]login" hidden$="{{hide1}}">
                             <paper-icon-button icon="my-icons:person"></paper-icon-button>
                         </a>
-                        <paper-tooltip for="loginuser">Log in</paper-tooltip>
+                        <paper-tooltip for="loginuser" hidden$="{{tooltiphide}}">Log in</paper-tooltip>
                         <paper-icon-button id="logoutuser" class="headerdisp inherit" icon="my-icons:exit-to-app" hidden$="{{hide}}" on-click="_signout"> </paper-icon-button>
-                        <paper-tooltip for="logoutuser">Sign out</paper-tooltip>
+                        <paper-tooltip for="logoutuser" hidden$="{{tooltiphide}}">Sign out</paper-tooltip>
                         <a name="cart" id="shopcart" href="[[rootPath]]cart" class="inherit">
                             <paper-icon-button icon="my-icons:shopping-cart" hidden$="{{hide2}}"></paper-icon-button>
                         </a>
-                        <paper-tooltip for="shopcart">Shopping cart</paper-tooltip>
+                        <paper-tooltip for="shopcart" hidden$="{{tooltiphide}}">Shopping cart</paper-tooltip>
                     </app-toolbar>
                 </app-header>
 
@@ -151,8 +173,8 @@
                     <my-login name="login"></my-login>
                     <my-home name="home"></my-home>
                     <my-catg name="catg" product="[[category]]" rootpath="[[rootPath]]"></my-catg>
-                    <my-cart name="cart" cartdata=[[cartdata]] cartempty=[[cartempty]] totalprice=[[totalprice]]></my-cart>
-                    <my-account name="account" username="[[username]]"></my-account>
+                    <my-cart name="cart" cartdata=[[cartdata]] rootpath="[[rootPath]]" cartempty=[[cartempty]] totalprice=[[totalprice]] username=[[username]] nouser="[[nouser]]"></my-cart>
+                    <my-account name="account" username="[[username]]" nouser="[[nouser]]"></my-account>
                     <my-prod name="prod" info="[[info]]"></my-prod>
                     <my-view404 name="view404"></my-view404>
                 </iron-pages>
@@ -199,18 +221,36 @@
                     hide: Boolean,
                     hide1: Boolean,
                     hide2: Boolean,
+                    tooltiphide: Boolean,
                     cartempty: Boolean,
-                    totalprice: String
+                    totalprice: String,
+                    width: {
+                        type: Number,
+                        value: 100
+                    },
+                    height: {
+                        type: Number,
+                        value: 100
+                    },
+                    nouser: Boolean
                 };
             }
 
             static get observers() {
                 return [
                     '_routePageChanged(routeData.page)',
-                    '_productChanged(idData.id)'
+                    '_productChanged(idData.id)',
+                    '_layoutChanged(width,height)'
                 ];
             }
-
+          
+            _layoutChanged(wd, hi) {
+                if (this.width <= 768) {
+                    this.tooltiphide = true;
+                } else {
+                  this.tooltiphide = false;
+                }
+            }
 
             _productChanged(id) {
                 if (!this.products) {
@@ -243,28 +283,28 @@
             }
 
             _routePageChanged(page) {
+              /*alert(this.onLine);*/
                 var name = localStorage.getItem("user");
                 this.username=name;
-                if (!name && !page) {
-                    this.hide1 = true;
-                    this.hide = true;
-                    this.hide2 = true;
-                    this.page = 'login';
-                } else if (!name && page !== 'login') {
+                if (!name  ) {
+                    this.nouser=false;
                     localStorage.setItem("user", "guest");
                     this.usernametxt = "Hi guest!";
                     this.hide = true;
                     this.hide1 = false;
                     this.hide2 = false;
                     this.page = page || 'home';
-                } else {
+                 } 
+                 else {
                     this.usernametxt = "Hi " + name + "!";
                     this.page = page || 'home';
                     if (name != "guest") {
+                        this.nouser=true;
                         this.hide1 = true;
                         this.hide = false;
                         this.hide2 = false;
                     } else {
+                        this.nouser=false;
                         this.hide1 = false;
                         this.hide = true;
                         this.hide2 = false;
@@ -337,19 +377,18 @@
             }
 
             _shouldHideMenuButton(page) {
-                if (page === 'login' || page === 'home') {
+                if (page === 'home') {
                     return false;
                 }
                 return true;
             }
             _shouldHideBackButton(page) {
-                return page === 'home' || page === 'login';
+                return page === 'home' ;
             }
             _goback() {
                 window.history.back();
-            }
-
         }
+      }
 
         window.customElements.define(MyApp.is, MyApp);
     </script>
@@ -360,4 +399,4 @@
         }
     </script>
 
-</dom-module>
+</dom-module> 

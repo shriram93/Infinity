@@ -78,9 +78,11 @@
         }
     </script>
     <script>
+        /**
         localStorage.setItem("user", "");
-        localStorage.setItem("product", "");
         localStorage.setItem("cartArray", "")
+        */
+        localStorage.setItem("product", "");
     </script>
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
@@ -102,10 +104,16 @@
             }
         }
     </style>
-
+    <link rel="import" href="bower_components/polymerfire/firebase-app.html">
 </head>
 
 <body>
+    <firebase-app
+    name="infinity"
+    api-key="AIzaSyDA_rbHEQmMJU3JRpJjIulMmCMl7RJ-khM"
+    auth-domain="infinity-dev-dde7c.firebaseapp.com"
+    database-url="https://infinity-dev-dde7c.firebaseio.com">
+   </firebase-app>
     <paper-toast id="toast" class="fit-bottom" text="placeholder"></paper-toast>
     <dom-bind>
         <template is="dom-bind">
@@ -119,7 +127,5 @@
     <noscript>
         Please enable JavaScript to view this website.
     </noscript>
-    <!-- Built with love using Polymer Starter Kit -->
 </body>
-
 </html>

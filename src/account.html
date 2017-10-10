@@ -8,11 +8,16 @@
                 display: block;
                 padding: 10px;
             }
+                   [hidden] {
+    display: none !important;
+     }
         </style>
-
         <div class="card">
             <h1>Account information</h1>
-            <p>Name: [[username]]</p>           
+            <p hidden$="{{!nouser}}">Name: [[username]]</p>      
+            <p hidden$="{{nouser}}">
+              Please login to view the account details
+          </p>
         </div>
     </template>
 
@@ -23,7 +28,8 @@
             }
           static get properties() {
                 return {
-                  username: String
+                  username: String,
+                  nouser:Boolean
                 };
             }
         }

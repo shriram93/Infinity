@@ -18,7 +18,7 @@
                 float: left;
             }
             img {
-                height: 100%;
+                height: var(--image-height);
                 width: auto;
             }
             .card {
@@ -46,7 +46,7 @@
                 margin-right: 10px;
             }
         </style>
-
+        <window-size width="{{width}}" height="{{height}}"></window-size>
         <div class="centered-container">
             <paper-card class="card">
                 <two-columns-grid column-width="480" gutter="4">
@@ -82,10 +82,39 @@
 
             static get properties() {
                 return {
-                    info: Object
+                    info: Object,
+                    width: {
+                        type: Number,
+                        value: 100
+                    },
+                    height: {
+                        type: Number,
+                        value: 100
+                    }
                 };
             }
-
+          
+            static get observers() {
+                return [
+                    '_layoutChanged(width,height)',
+                ];
+            }
+          
+            _layoutChanged(wd, hi) {
+                if (this.width <= 425)
+                {
+                  this.updateStyles({
+                    '--image-height': 75 + '%',
+                    });                    
+                }
+                else
+                {
+                  this.updateStyles({                  
+                    '--image-height': 100 + '%',
+                    });                      
+                }
+            }
+          
             handleClick() {
                 localStorage.setItem("product", [
                     [this.info.id]

@@ -25,8 +25,8 @@
                 width: auto;
             }
             .image-placeholder {
-                width: 120px;
-                height: 120px;
+                width: var(--image-width);
+                height: var(--image-height);
                 display: block;
                 margin-right: 20px;
                 float: left;
@@ -42,12 +42,19 @@
                     <a class="inherit" href="[[rootpath]]prod/[[prod.id]]">
                         <paper-card class="card">
                             <div class="card-content">
+                              <div id="container" style="width:100%">
+                                <div id="left" style="float:left; width: 50%; text-align: center">
                                 <div class="image-placeholder">
                                     <img src="[[prod.image]]">
                                 </div>
-                                <div class="item-header">[[prod.title]]</div>
+                               </div>
+
+                                <div id="right" style="float:left; width: 50%;">
+                                 <div class="item-header" >[[prod.title]]</div>
                                 <div>[[prod.price]]</div>
+                              </div>                               
                             </div>
+                           </div>
                         </paper-card>
                     </a>
                 </template>
@@ -82,16 +89,28 @@
             }
 
             _layoutChanged(wd, hi) {
-                if (this.width < 768) {
-                    this.updateStyles({
-
-                        '--font-size': 14 + 'px',
+                if (this.width <= 768) {
+                    this.updateStyles({                      
+                       '--font-size': 14 + 'px',
                     });
                 } else {
                     this.updateStyles({
-
                         '--font-size': 22 + 'px',
                     });
+                }
+                if (this.width <= 425)
+                {
+                  this.updateStyles({
+                    '--image-height': 130 + 'px',
+                    '--image-width': 100 + 'px',
+                    });                    
+                }
+                else
+                {
+                  this.updateStyles({                  
+                    '--image-height': 150 + 'px',
+                    '--image-width': 170 + 'px',
+                    });                      
                 }
             }
         }
@@ -99,4 +118,4 @@
     </script>
 
 
-</dom-module>
+</dom-module> 

@@ -25,11 +25,16 @@
             .login {
                 background-color: #4CAF50;
                 color: #ffffff;
+              height: 90%;
+                width: 100%;
             }
             .guest {
                 background-color: #4285f4;
                 color: #ffffff;
+              height: 90%;
+                width: 100%;
             }
+          
         </style>
         <window-size width="{{width}}" height="{{height}}"></window-size>
         <div class="card centered-container">
@@ -42,12 +47,14 @@
                 <paper-input label="Password" id="password" type="password" char-counter maxlength="10" auto-validate></paper-input>
 
                 <div class="wrapper-btns">
+                  <two-columns-grid column-width="200" gutter="10">  
                     <a class="inherit" href="[[rootpath]]home">
-                        <paper-button raised class="login" on-click="_login">Log In</paper-button>
+                        <paper-button raised class="login" on-click="_login">Sign In</paper-button>
                     </a>
                     <a class="inherit" href="[[rootpath]]home">
                         <paper-button raised class="guest" on-click="_guest">Continue as guest</paper-button>
                     </a>
+                  </two-columns-grid>  
                 </div>
             </div>
         </div>
@@ -88,10 +95,13 @@
                 if (!this.$.username_id.value) {
                     this.$.username_id.value = "guest";
                 }
+              else
+                {
+                    document.getElementById('toast').show('Hi ' + this.$.username_id.value + ', Welcome back!');
+                }
                 localStorage.setItem("user", [
                     [this.$.username_id.value]
-                ]);
-                document.getElementById('toast').show('Hi ' + this.$.username_id.value + ', Welcome back!');
+                ]);                
                 this.$.username_id.value = "";
                 this.$.password.value = "";
             }
@@ -112,4 +122,4 @@
             alert(message);
         }
     </script>
-</dom-module>
+</dom-module> 
